@@ -123,7 +123,6 @@ bool get_available(const std::vector<Photo>& photos,
                std::vector<int>& c,
                Slide& s) {
 
-  // std::sort(c.begin(), c.end(), photo_comp);
   std::random_shuffle(c.begin(), c.end());
 
   for(int i = 0; i < c.size(); ++i) {
@@ -134,16 +133,6 @@ bool get_available(const std::vector<Photo>& photos,
         avail[c[i]] = false;
         return true;
       } else {
-
-        /* for(int j = i+1; j < c.size(); ++j) {
-          if (avail[c[j]] && photos[c[j]].orient == 'V') {
-            s.a = c[i];
-            s.b = c[j];
-            avail[c[i]] = false;
-            avail[c[j]] = false;
-            return true;
-          }
-        } */
 
         for(int j = c[i]+1; j < avail.size(); ++j) {
           if (avail[j] && photos[j].orient == 'V') {
@@ -215,10 +204,6 @@ int main() {
       res.push_back(curr);
     }
   }
-
-
-
-
 
   std::cout << res.size() <<  std::endl;
   for(int i = 0; i < res.size(); ++i) {
