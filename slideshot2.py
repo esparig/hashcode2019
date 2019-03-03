@@ -86,6 +86,7 @@ def get_greedy_order(random_slides, minM):
     row = set([i for i in range(0, len(minM[0]))])
     column = set([i for i in range(0, len(minM[0]))])
 
+    #TO DO: change this, for getting one slide at a time!!!!!!!!!!
     while (row and column):
         (r, c) = get_max_score(minM, row, column)
         if r and c:
