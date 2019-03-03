@@ -115,7 +115,7 @@ std::vector<Photo>* photos_ptr;
 
 bool photo_comp(const int& lhs, const int& rhs) {
   std::vector<Photo>& photos = *photos_ptr;
-  return photos[lhs].tags.size() < photos[rhs].tags.size();
+  return photos[lhs].tags.size() > photos[rhs].tags.size();
 }
 
 bool get_available(const std::vector<Photo>& photos,
