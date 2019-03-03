@@ -118,7 +118,7 @@ bool photo_comp(const int& lhs, const int& rhs) {
   return photos[lhs].tags.size() < photos[rhs].tags.size();
 }
 
-bool get_avail(const std::vector<Photo>& photos,
+bool get_available(const std::vector<Photo>& photos,
                std::vector<bool>& avail,
                std::vector<int>& c,
                Slide& s) {
@@ -200,7 +200,7 @@ int main() {
     found = false;
     for(itct = curr_tags.begin(); itct != curr_tags.end() && !found; ++itct) {
       std::vector<int>& c = ridx[*itct];
-      if (get_avail(photos, avail, c, curr)) {
+      if (get_available(photos, avail, c, curr)) {
         found = true;
       }
     }
