@@ -113,7 +113,11 @@ bool get_slide(const std::vector<Photo>& photos,
 
 std::vector<Photo>* photos_ptr;
 
-bool photo_composition2(const int& lhs, const int& rhs) {
+
+bool photo_comparator(const int& lhs, const int& rhs) {
+
+
+
   std::vector<Photo>& photos = *photos_ptr;
   return photos[lhs].tags.size() <= photos[rhs].tags.size();
 }
