@@ -1,5 +1,6 @@
 #!/bin/python3
 from random import shuffle
+from sys import stderr
 
 class Slide:
     def __init__(self, is_H, ids, tags):
@@ -43,6 +44,13 @@ def print_solution(result):
         else:
             print (str(s.ids[0])+" "+str(s.ids[1]))
 
+def print_solution_slides(result):
+    print(len(result))
+    for slide in result:
+        for i in slide.ids:
+            print(i, end=" ")
+        print()
+
 def get_t1minust2(r):
     lenr = len(r)
     M = [[0 for x in range(lenr)] for y in range(lenr)]
@@ -72,7 +80,7 @@ def get_minscore(M1, M2):
 def get_max_score(M, r, c):
     lenm = len(M[0])
     max_score, ri, rj = 0, None, None
-    print(r, c)
+    #print(r, c)
     for i in r:
         for j in c:
             if M[i][j] >= max_score:
@@ -81,21 +89,36 @@ def get_max_score(M, r, c):
                 rj = j
     return (ri, rj)
 
+def get_max_score_from(M, from_slide, c):
+    lenm = len(M[0])
+    max_score, ri, rj = 0, None, None
+    #print(r, c)
+    for j in c:
+        if M[from_slide][j] >= max_score:
+            max_score = M[from_slide][j]
+            rj = j
+    return (from_slide, rj)
+
 def get_greedy_order(random_slides, minM):
     result = []
     row = set([i for i in range(0, len(minM[0]))])
     column = set([i for i in range(0, len(minM[0]))])
 
-    #TO DO: change this, for getting one slide at a time!!!!!!!!!!
+    (from_slide, to_slide) = get_max_score(minM, row, column)
+    result.append(random_slides[from_slide])
+    result.append(random_slides[to_slide])
+    row.remove(from_slide)
+    column.remove(from_slide)
+
     while (row and column):
-        (r, c) = get_max_score(minM, row, column)
-        if r and c:
-            result.append(random_slides[r])
-            result.append(random_slides[c])
-            row.remove(r)
-            row.remove(c)
-            column.remove(r)
-            column.remove(c)
+        (from_slide, to_slide) = get_max_score_from(minM, to_slide, column)
+        if from_slide != to_slide:
+            result.append(random_slides[to_slide])
+            row.remove(from_slide)
+            column.remove(from_slide)
+        else:
+            break
+
     return result
 
 
@@ -115,13 +138,17 @@ if __name__ == '__main__':
     for p in photosV:
         print(p.orientation, p.tags)
     """
+    print("Hello!", file=stderr)
     random_slides = get_ordered_slides_random(photosH, photosV)
-
+    print("random slides computed", file=stderr)
     M1 = get_t1minust2(random_slides)
+    print("t1minust2 computed", file=stderr)
     M2 = get_t1intersectiont2(random_slides)
+    print("t1intersectiont2 computed", file=stderr)
     minM = get_minscore(M1, M2)
+    print("score matrix computed", file=stderr)
 
     #print(M1, M2, minM)
 
     result = get_greedy_order(random_slides, minM)
-    print_solution(result)
+    print_solution_slides(result)
